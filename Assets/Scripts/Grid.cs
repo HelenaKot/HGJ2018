@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 {
-	[SerializeField] private int gridLength = 10;
-	[SerializeField] private int gridHeight = 8;
+	[SerializeField] private int gridLength = 7;
+	[SerializeField] private int gridHeight = 6;
 
 	private Node[,] gridFieldNodes;
 	[SerializeField] private GameObject nodePrefab;
 
-	[SerializeField] private int hurtAmount;
+	[SerializeField] private int hurtAmount = 1;
+	[SerializeField] private int activatedAmount = 2;
 
 	private void CreateGrid()
 	{
-		gridFieldNodes = new Node[gridLength, gridHeight];
+		gridFieldNodes = new Node[gridLength, gridHeight];		
 		for (int i = 0; i < gridLength; i++)
 		{
 			for (int j = 0; i < gridHeight; i++)
@@ -26,8 +27,16 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 				Subscribe(ng);
 			}
 		}
-	}
 
+		foreach(Node node in GetStartNodes())
+		{
+			node.active = true;
+			node.health = Random.Range(-3,4);
+		}
+
+		UpdateObservers();
+	}
+	
 	public void UpdateGrid()
 	{		
 		List<Node> inactiveNodes = new List<Node>();
@@ -61,8 +70,99 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 				}
 			}
 		}
-		inactiveNodes[Random.Range(0, inactiveNodes.Count)].Activate();
-		UpdateObservers();
+		if(inactiveNodes.Count > activatedAmount)
+		{
+			for (int i = 0; i<activatedAmount; i++)
+			{
+				Node currentNode = inactiveNodes[Random.Range(0, inactiveNodes.Count)];
+				currentNode.Activate();
+				inactiveNodes.Remove(currentNode);
+			}
+			UpdateObservers();
+		}			
+		else if (inactiveNodes.Count > 0)
+		{
+			for (int i = 0; i< inactiveNodes.Count; i++)
+			{
+				Node currentNode = inactiveNodes[Random.Range(0, inactiveNodes.Count)];
+				currentNode.Activate();
+				inactiveNodes.Remove(currentNode);
+			}
+			UpdateObservers();
+		}
+		else
+			FinishGame();		
+	}
+
+	private List<Node> GetStartNodes()
+	{
+		List<Node> startNodes = new List<Node>();
+		if (gridLength % 2 == 0 && gridHeight % 2 == 0)
+		{
+			startNodes.Add(gridFieldNodes[gridLength/2,gridHeight/2]);
+			startNodes.Add(gridFieldNodes[gridLength/2+1,gridHeight/2]);
+			startNodes.Add(gridFieldNodes[gridLength/2,gridHeight/2+1]);
+			startNodes.Add(gridFieldNodes[gridLength/2+1,gridHeight/2+1]);
+		}
+		else if (gridLength % 2 != 0 && gridHeight % 2 == 0)
+		{
+			int middleX = Mathf.FloorToInt(gridLength/2);
+
+			startNodes.Add(gridFieldNodes[middleX,gridHeight/2]);
+			startNodes.Add(gridFieldNodes[middleX+1,gridHeight/2]);
+			startNodes.Add(gridFieldNodes[middleX-1,gridHeight/2]);
+			startNodes.Add(gridFieldNodes[middleX,gridHeight/2+1]);
+			startNodes.Add(gridFieldNodes[middleX+1,gridHeight/2+1]);
+			startNodes.Add(gridFieldNodes[middleX-1,gridHeight/2+1]);
+		}
+		else if (gridLength % 2 == 0 && gridHeight % 2 != 0)
+		{
+			int middleY = Mathf.FloorToInt(gridHeight/2);
+
+			startNodes.Add(gridFieldNodes[gridLength/2,middleY]);
+			startNodes.Add(gridFieldNodes[gridLength/2,middleY+1]);
+			startNodes.Add(gridFieldNodes[gridLength/2,middleY-1]);
+			startNodes.Add(gridFieldNodes[gridLength/2+1,middleY]);
+			startNodes.Add(gridFieldNodes[gridLength/2+1,middleY+1]);
+			startNodes.Add(gridFieldNodes[gridLength/2+1,middleY-1]);
+		}
+		else
+		{
+			int middleX = Mathf.FloorToInt(gridLength/2);
+			int middleY = Mathf.FloorToInt(gridHeight/2);
+
+			startNodes.Add(gridFieldNodes[middleX,middleY]);
+			startNodes.Add(gridFieldNodes[middleX+1, middleY]);
+			startNodes.Add(gridFieldNodes[middleX-1,middleY]);
+			startNodes.Add(gridFieldNodes[middleX, middleY+1]);
+			startNodes.Add(gridFieldNodes[middleX, middleY-1]);
+		}
+
+		return startNodes;
+	}
+
+
+	private void FinishGame()
+	{
+		int finalScore = 0;
+		foreach (Node node in gridFieldNodes)
+		{
+			finalScore += node.health;
+		}
+		if (finalScore >= 0)
+			Win();
+		else
+			Lose();
+	}
+
+	private void Win()
+	{
+		Debug.Log("Win");
+	}
+
+	private void Lose()
+	{
+		Debug.Log("Lose");
 	}
 
 	private Node[] GetNeighbours(int posX, int posY)
