@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Node : MonoBehaviour {
 
-	private bool active;
+	public bool active;
+	public bool dead;
 	private int health;
 	[SerializeField] private int maxHealth = 10;
 	[SerializeField] private int minHealth = -10;
@@ -25,7 +26,7 @@ public class Node : MonoBehaviour {
 		if (health < minHealth)
 		{
 			health = minHealth;
-			Deactivate();
+			Kill();
 		}
 	}
 
@@ -34,8 +35,9 @@ public class Node : MonoBehaviour {
 		active = true;
 	}
 	
-	public void Deactivate()
+	public void Kill()
 	{
 		active = false;
+		dead = true;
 	}
 }
