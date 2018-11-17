@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
+   public Gradient HealthColor = new Gradient();
 
     void IObserver<NodeGraphics>.Update()
     {
@@ -13,4 +14,5 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
 	{
 
 	}
+    
 }
