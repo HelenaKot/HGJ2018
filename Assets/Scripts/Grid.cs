@@ -21,7 +21,9 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 			for (int j = 0; i < gridHeight; i++)
 			{
 				GameObject node = Instantiate(nodePrefab);
-				gridFieldNodes[i,j] = node.GetComponent<Node>();
+				Node nodeScript = node.GetComponent<Node>();
+				nodeScript.SetGridReference(this);
+				gridFieldNodes[i,j] = nodeScript;
 				NodeGraphics ng = node.GetComponent<NodeGraphics>();
 				ng.Initialize(i,j);
 				Subscribe(ng);
