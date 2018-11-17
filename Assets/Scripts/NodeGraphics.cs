@@ -8,4 +8,9 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
     {
         throw new System.NotImplementedException();
     }
+
+	public void Initialize(int posX, int posY)
+	{
+
+	}
 }
