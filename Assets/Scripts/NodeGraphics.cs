@@ -14,6 +14,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
         healthPoints = node.maxHealth + Mathf.Abs(node.minHealth);
         myMaterial = GetComponentInChildren<Renderer>().materials[1];
         myMaterial.EnableKeyword("_EMISSION");
+        node.health = 4;
         updateColor();
     }
 

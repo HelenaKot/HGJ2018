@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\IObserver.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\NodeGraphics.cs" />
+    <Compile Include="Assets\Scripts\SpriteScroller.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/kit/Documents/Unity Projects/HGJ2018/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
