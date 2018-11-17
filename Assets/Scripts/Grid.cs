@@ -26,6 +26,34 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		}
 	}
 
+	public void UpdateGrid()
+	{
+
+	}
+
+	private Node[] GetNeighbours(int posX, int posY)
+	{
+		List<Node> neighbours = new List<Node>();
+		if (posX != 0)
+		{
+			neighbours.Add(gridFieldNodes[posX-1,posY]);
+		}
+		if (posY != 0)
+		{
+			neighbours.Add(gridFieldNodes[posX, posY-1]);
+		}
+		if (posX != gridLength)
+		{
+			neighbours.Add(gridFieldNodes[posX+1, posY]);
+		}
+		if (posY != gridHeight)
+		{
+			neighbours.Add(gridFieldNodes[posX, posY+1]);
+		}
+
+		return neighbours.ToArray();
+	}
+
 	#region observer code
 	private List<IObserver<NodeGraphics>> nodeGraphicsObserverList = new List<IObserver<NodeGraphics>>();
 
