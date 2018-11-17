@@ -8,8 +8,9 @@ public class Node : MonoBehaviour {
 	public bool dead;
 	public bool sleeping;
 	public int health;
-	[SerializeField] public int maxHealth = 10;
-	[SerializeField] public int minHealth = -10;
+	public int maxHealth = 10;
+	public int minHealth = -10;
+	[SerializeField] private int wakeUpHurt = 5;
 
 	public void Heal(int healAmount)
 	{
@@ -18,6 +19,8 @@ public class Node : MonoBehaviour {
 			health += healAmount;
 			if (health > maxHealth)
 				health = maxHealth;
+			if (sleeping)
+				sleeping = false;
 		}
 	}
 
@@ -44,5 +47,6 @@ public class Node : MonoBehaviour {
 	public void Wake()
 	{
 		sleeping = false;
+		Hurt(wakeUpHurt);
 	}
 }
