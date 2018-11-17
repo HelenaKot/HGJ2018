@@ -8,8 +8,8 @@ public class Node : MonoBehaviour {
 	public bool dead;
 	public bool sleeping;
 	public int health;
-	[SerializeField] private int maxHealth = 10;
-	[SerializeField] private int minHealth = -10;
+	public int maxHealth = 10;
+	public int minHealth = -10;
 	[SerializeField] private int wakeUpHurt = 5;
 
 	public void Heal(int healAmount)
