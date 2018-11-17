@@ -6,13 +6,14 @@ public class Node : MonoBehaviour {
 
 	public bool active;
 	public bool dead;
+	public bool sleeping;
 	public int health;
 	[SerializeField] public int maxHealth = 10;
 	[SerializeField] public int minHealth = -10;
 
 	public void Heal(int healAmount)
 	{
-		if (active)
+		if (active && !dead)
 		{
 			health += healAmount;
 			if (health > maxHealth)
@@ -33,11 +34,15 @@ public class Node : MonoBehaviour {
 	public void Activate()
 	{
 		active = true;
+		sleeping = true;
 	}
 	
 	public void Kill()
 	{
-		active = false;
 		dead = true;
+	}
+	public void Wake()
+	{
+		sleeping = false;
 	}
 }
