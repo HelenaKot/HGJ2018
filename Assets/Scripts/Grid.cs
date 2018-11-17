@@ -10,6 +10,8 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 	private Node[,] gridFieldNodes;
 	[SerializeField] private GameObject nodePrefab;
 
+	[SerializeField] private int hurtAmount;
+
 	private void CreateGrid()
 	{
 		gridFieldNodes = new Node[gridLength, gridHeight];
@@ -27,8 +29,23 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 	}
 
 	public void UpdateGrid()
-	{
-
+	{		
+		for (int i = 0; i < gridLength; i++)
+		{
+			for (int j = 0; i < gridHeight; i++)
+			{
+				if (gridFieldNodes[i,j].health <0 && !gridFieldNodes[i,j].dead)
+				{
+					gridFieldNodes[i,j].Hurt(hurtAmount);					
+					foreach (Node node in GetNeighbours(i,j))
+					{
+						if(node.active)
+							node.Hurt(hurtAmount);
+					}
+				}
+			}
+		}
+		UpdateObservers();
 	}
 
 	private Node[] GetNeighbours(int posX, int posY)
