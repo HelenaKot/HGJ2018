@@ -30,21 +30,32 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 
 	public void UpdateGrid()
 	{		
+		List<Node> inactiveNodes = new List<Node>();
 		for (int i = 0; i < gridLength; i++)
 		{
 			for (int j = 0; i < gridHeight; i++)
 			{
-				if (gridFieldNodes[i,j].health <0 && !gridFieldNodes[i,j].dead)
+				Node currentNode = gridFieldNodes[i,j];
+				if(!currentNode.active)
 				{
-					gridFieldNodes[i,j].Hurt(hurtAmount);					
+					inactiveNodes.Add(currentNode);
+				}
+				else if (currentNode.sleeping)
+				{
+					currentNode.Wake();
+				}
+				else if (currentNode.health <0 && !currentNode.dead)
+				{
+					currentNode.Hurt(hurtAmount);					
 					foreach (Node node in GetNeighbours(i,j))
 					{
-						if(node.active)
+						if(node.active && !node.sleeping)
 							node.Hurt(hurtAmount);
 					}
 				}
 			}
 		}
+		inactiveNodes[Random.Range(0, inactiveNodes.Count)].Activate();
 		UpdateObservers();
 	}
 
