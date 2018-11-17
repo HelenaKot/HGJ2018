@@ -36,14 +36,20 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 			for (int j = 0; i < gridHeight; i++)
 			{
 				Node currentNode = gridFieldNodes[i,j];
-				if(!currentNode.active)
-				{
-					inactiveNodes.Add(currentNode);
-				}
-				else if (currentNode.sleeping)
+				if (currentNode.sleeping)
 				{
 					currentNode.Wake();
 				}
+				if(currentNode.active)
+				{
+					foreach (Node node in GetNeighbours(i,j))
+					{
+						if(!node.active)
+						{
+							inactiveNodes.Add(node);
+						}
+					}
+				}				
 				else if (currentNode.health <0 && !currentNode.dead)
 				{
 					currentNode.Hurt(hurtAmount);					
