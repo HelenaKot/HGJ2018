@@ -13,6 +13,15 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 	[SerializeField] private int hurtAmount = 1;
 	[SerializeField] private int activatedAmount = 2;
 
+	/// <summary>
+	/// Start is called on the frame when a script is enabled just before
+	/// any of the Update methods is called the first time.
+	/// </summary>
+	void Start()
+	{
+		CreateGrid();
+	}
+
 	private void CreateGrid()
 	{
 		gridFieldNodes = new Node[gridLength, gridHeight];		
