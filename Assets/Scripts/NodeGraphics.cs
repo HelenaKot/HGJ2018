@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
-    public Gradient HealthColor = new Gradient();
+    [SerializeField] private Gradient HealthColor = new Gradient();
+    [SerializeField] private Transform[] shelfAnchors;
+    [SerializeField] private Transform[] columnAnchors;
+
     Node node;
     private int healthPoints;
     private Material myMaterial;
@@ -20,7 +23,16 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
 
     public void Initialize(int posX, int posY)
     {
-       
+        if (posX >= 0 
+            && posX < columnAnchors.Length
+            && posY >= 0
+            && posY < shelfAnchors.Length)
+        {
+            transform.position = new Vector3(
+                columnAnchors[posX].position.x, 
+                shelfAnchors[posY].position.y, 
+                shelfAnchors[posY].position.z);
+        }
     }
 
     void IObserver<NodeGraphics>.Update()
