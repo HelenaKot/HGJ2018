@@ -23,6 +23,7 @@ public class Node : MonoBehaviour {
 				health = maxHealth;
 			if (sleeping)
 				sleeping = false;
+			Debug.Log("Healed");
 			grid.UpdateGrid();
 		}
 	}
@@ -59,6 +60,7 @@ public class Node : MonoBehaviour {
 	/// </summary>
 	void OnMouseDown()
 	{
+		Debug.Log("Clicked Node");
 		Heal(healAmount);
 	}
 
