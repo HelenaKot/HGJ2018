@@ -94,7 +94,7 @@ public class Node : MonoBehaviour {
 	/// </summary>
 	void OnMouseDown()
 	{
-		if(!finished && !dead)
+		if(!finished && !dead && health != maxHealth)
 		{
 			Heal(healAmount, true);
 			grid.HealNeighbours(posX, posY);
