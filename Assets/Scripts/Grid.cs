@@ -21,6 +21,7 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 	private bool lastRound;
 
 	[SerializeField] private GameObject winLose;
+	[SerializeField] private GameObject startScreen;
 
 	/// <summary>
 	/// Start is called on the frame when a script is enabled just before
@@ -31,7 +32,7 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		CreateGrid();
 	}
 
-	private void CreateGrid()
+	public void CreateGrid()
 	{
 		gridFieldNodes = new Node[gridLength, gridHeight];		
 		for (int i = 0; i < gridLength; i++)
@@ -50,6 +51,12 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 				Subscribe(ng);
 			}
 		}
+	}
+		
+		public void StartGame()
+		{			
+		startScreen.SetActive(false);
+		healthBar.gameObject.SetActive(true);
 
 		int negativePoints = 0;
 		int positivePoints = 0;
@@ -70,8 +77,8 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 
 		UpdateObservers();
 		healthBar.UpdateHealthBar(negativePoints, positivePoints);
-	}
-	
+		}
+		
 	public void UpdateGrid()
 	{		
 		List<Node> inactiveNodes = new List<Node>();
@@ -173,6 +180,7 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		winLose.SetActive(false);
 		lastRound = false;
 		CreateGrid();
+		StartGame();
 	}
 
 	private void UpdateHealth()

@@ -82,11 +82,11 @@ public class Node : MonoBehaviour {
 	/// </summary>
 	void OnMouseDown()
 	{
-		if(!finished && !dead && health != maxHealth)
+		if(active && !finished && !dead && health != maxHealth)
 		{
 			Heal(healAmount, true);
 			grid.HealNeighbours(posX, posY);
-			
+
 			clickSound.pitch = Random.Range(0.5f, 1f);
 			clickSound.Play();
 		}
