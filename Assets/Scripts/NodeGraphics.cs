@@ -19,6 +19,34 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
     private SpriteRenderer mySprite;
     private SpriteMask mySpriteMask;
 
+    private bool interpolatingColor;
+
+    private Color startColor;
+    private Color targetColor;
+
+    private float emission;
+    private float lerpStage = 0;
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        if (interpolatingColor)
+        {
+            lerpStage += 0.6f*Time.deltaTime;
+            
+            myMaterial.SetColor("_EmissionColor", Color.Lerp(startColor, targetColor, lerpStage) * Mathf.LinearToGammaSpace(minEmission + emission));
+            myMaterial.SetColor("_Color", Color.Lerp(startColor, targetColor, lerpStage));
+            
+            if (lerpStage >= 1)
+            {
+                interpolatingColor = false;
+                lerpStage = 0;
+            }
+        }
+    }
+
     void Awake()
     {
         node = GetComponent<Node>();
@@ -77,8 +105,13 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
 
     private void UpdateColor(Color color, float emission)
     {
-        myMaterial.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(minEmission + emission));
-        myMaterial.SetColor("_Color", color);
+        startColor = myMaterial.GetColor("_Color");
+        targetColor = color;
+        this.emission = emission;
+        interpolatingColor = true;
+
+        //myMaterial.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(minEmission + emission));
+        //myMaterial.SetColor("_Color", color);
     }
 
     private void updateFace(float percent)
