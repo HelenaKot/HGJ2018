@@ -63,7 +63,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
             float healthPercent = (node.health + Mathf.Abs(node.minHealth)) / (float)healthPoints;
             if (node.dead)
             {
-                mySpriteMask.sprite = faces[faces.Length-1];
+                mySpriteMask.sprite = faces[faces.Length - 1];
                 mySprite.color = faceColorSleep;
             } else
             {
@@ -89,11 +89,15 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
             {
                 mySpriteMask.sprite = faces[0];
             }
+            else if (percent.Equals(1F))
+            {
+                mySpriteMask.sprite = faces[1];
+            }
             else
             {
                 // int 1 : faces.Length
                 int validFaces = faces.Length - 2;
-                int face = (int) (validFaces + 1 - ((validFaces - 1) * percent));
+                int face =  (int) (validFaces + 1 - ((validFaces - 1) * percent));
                 mySpriteMask.sprite = faces[face];
             }
         }
