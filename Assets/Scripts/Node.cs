@@ -11,10 +11,12 @@ public class Node : MonoBehaviour {
 	public int maxHealth = 10;
 	public int minHealth = -10;
 	[SerializeField] private int wakeUpHurt = 3;
-	public int healAmount = 5;
+	public int healAmount = 20;
 	private Grid grid;
 
 	private TextMeshPro tmpro;
+
+	public bool finished;
 
 	/// <summary>
 	/// Start is called on the frame when a script is enabled just before
@@ -50,7 +52,7 @@ public class Node : MonoBehaviour {
 	public void Hurt(int hurtAmount)
 	{
 		health -= hurtAmount;
-		if (health < minHealth)
+		if (health <= minHealth)
 		{
 			health = minHealth;
 			Kill();
@@ -84,6 +86,7 @@ public class Node : MonoBehaviour {
 	/// </summary>
 	void OnMouseDown()
 	{
-		Heal(healAmount);
+		if(!finished)
+			Heal(healAmount);
 	}
 }

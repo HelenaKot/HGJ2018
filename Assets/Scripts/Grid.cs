@@ -117,6 +117,11 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 
 				UpdateObservers();
 			}
+			else
+			{
+				FinishGame();
+				UpdateObservers();
+			}
 		}
 		else
 		{			
@@ -175,6 +180,10 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 
 	private void FinishGame()
 	{
+		foreach(Node node in gridFieldNodes)
+		{
+			node.finished = true;
+		}
 		int finalScore = 0;
 		foreach (Node node in gridFieldNodes)
 		{
