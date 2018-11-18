@@ -20,6 +20,11 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
         updateColor();
     }
 
+    public void SetRackReference(Rack rack)
+    {
+        this.rack = rack;
+    }
+
     public void Initialize(int posX, int posY)
     {
             transform.position =   rack.getTransform(posX, posY);
