@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 {
@@ -18,6 +19,8 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 	[SerializeField] private HealthBar healthBar;
 
 	private bool lastRound;
+
+	[SerializeField] private GameObject winLose;
 
 	/// <summary>
 	/// Start is called on the frame when a script is enabled just before
@@ -160,6 +163,18 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		}
 	}
 
+	public void Restart()
+	{
+		foreach(Node node in gridFieldNodes)
+		{
+			Unsubscribe(node.GetComponent<NodeGraphics>());
+			Destroy(node.gameObject);
+		}
+		winLose.SetActive(false);
+		lastRound = false;
+		CreateGrid();
+	}
+
 	private void UpdateHealth()
 	{
 		int positivePoints = 0;
@@ -245,11 +260,15 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 	private void Win()
 	{
 		Debug.Log("Win");
+		winLose.SetActive(true);
+		winLose.GetComponentInChildren<TextMeshProUGUI>().text = "YOU WIN";
 	}
 
 	private void Lose()
 	{
 		Debug.Log("Lose");
+		winLose.SetActive(true);
+		winLose.GetComponentInChildren<TextMeshProUGUI>().text = "YOU LOSE";
 	}
 
 	private Node[] GetNeighbours(int posX, int posY)

@@ -102,6 +102,7 @@
      <Compile Include="Assets\Scripts\HealthBar.cs" />
      <Compile Include="Assets\Scripts\IObservable.cs" />
      <Compile Include="Assets\Scripts\IObserver.cs" />
+     <Compile Include="Assets\Scripts\Music.cs" />
      <Compile Include="Assets\Scripts\Node.cs" />
      <Compile Include="Assets\Scripts\NodeGraphics.cs" />
      <Compile Include="Assets\Scripts\Rack.cs" />
