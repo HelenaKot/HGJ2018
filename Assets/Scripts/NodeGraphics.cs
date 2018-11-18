@@ -109,6 +109,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
         targetColor = color;
         this.emission = emission;
         interpolatingColor = true;
+        lerpStage = 0;
 
         //myMaterial.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(minEmission + emission));
         //myMaterial.SetColor("_Color", color);
