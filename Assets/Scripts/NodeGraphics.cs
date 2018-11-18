@@ -27,7 +27,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
 
     public void Initialize(int posX, int posY)
     {
-            transform.position =   rack.getTransform(posX, posY);
+            transform.position = rack.getTransform(posX, posY);
     }
 
     void IObserver<NodeGraphics>.Update()

@@ -29,13 +29,14 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		gridFieldNodes = new Node[gridLength, gridHeight];		
 		for (int i = 0; i < gridLength; i++)
 		{
-			for (int j = 0; i < gridHeight; i++)
+			for (int j = 0; j < gridHeight; j++)
 			{
 				GameObject node = Instantiate(nodePrefab);
 				Node nodeScript = node.GetComponent<Node>();
 				nodeScript.SetGridReference(this);
 				gridFieldNodes[i,j] = nodeScript;
 				NodeGraphics ng = node.GetComponent<NodeGraphics>();
+				ng.SetRackReference(rack);
 				ng.Initialize(i,j);
 				Subscribe(ng);
 			}
