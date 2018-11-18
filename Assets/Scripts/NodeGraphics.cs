@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
     [SerializeField] private Gradient HealthColor = new Gradient();
+    [SerializeField] private Color offColor = Color.black;
+    [SerializeField] private Color sleepColor = Color.gray;
+    [SerializeField] float intensity = 1.4F;
 
-    Rack rack; //todo!
+   Rack rack; //todo!
     Node node;
     private int healthPoints;
     private Material myMaterial;
+    private SpriteRenderer mySprite;
 
     void Awake()
     {
         node = GetComponent<Node>();
         healthPoints = node.maxHealth + Mathf.Abs(node.minHealth);
         myMaterial = GetComponentInChildren<Renderer>().materials[1];
+        mySprite = GetComponentInChildren<SpriteRenderer>();
         myMaterial.EnableKeyword("_EMISSION");
-        node.health = 4;
-        updateColor();
+        node.health = 10;
+        refreshView();
     }
 
     public void SetRackReference(Rack rack)
@@ -27,22 +32,38 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
 
     public void Initialize(int posX, int posY)
     {
-            transform.position = rack.getTransform(posX, posY);
+        transform.position = rack.getTransform(posX, posY);
     }
 
     void IObserver<NodeGraphics>.Update()
     {
-        updateColor();
+        refreshView();
     }
 
-    private void updateColor()
+    private void refreshView()
     {
-        Color glowColor = HealthColor.Evaluate((node.health + Mathf.Abs(node.minHealth)) / (float)healthPoints);
-        myMaterial.SetColor("_EmissionColor", glowColor);
-        myMaterial.SetColor("_Color", glowColor);
+        mySprite.enabled = node.active;
+        if (!node.active)
+        {
+            UpdateColor(offColor, 0);
+        }
+        else if (node.sleeping)
+        {
+            UpdateColor(sleepColor, 0);
+        }
+        else
+        {
+            float healthPercent = (node.health + Mathf.Abs(node.minHealth)) / (float)healthPoints;
+            Color glowColor = HealthColor.Evaluate(healthPercent);
+            UpdateColor(glowColor, intensity * healthPercent);
+        }
     }
 
-
+    private void UpdateColor(Color color, float emission)
+    {
+        myMaterial.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(emission));
+        myMaterial.SetColor("_Color", color);
+    }
 
     
 }
