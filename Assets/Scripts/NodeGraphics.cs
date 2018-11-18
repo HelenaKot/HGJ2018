@@ -7,6 +7,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
     [SerializeField] private Color offColor = Color.black;
     [SerializeField] private Color sleepColor = Color.gray;
     [SerializeField] float intensity = 1.4F;
+    [SerializeField] float minEmission = 0.8F;
 
    Rack rack; //todo!
     Node node;
@@ -21,7 +22,6 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
         myMaterial = GetComponentInChildren<Renderer>().materials[1];
         mySprite = GetComponentInChildren<SpriteRenderer>();
         myMaterial.EnableKeyword("_EMISSION");
-        node.health = 10;
         refreshView();
     }
 
@@ -61,7 +61,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
 
     private void UpdateColor(Color color, float emission)
     {
-        myMaterial.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(emission));
+        myMaterial.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(minEmission + emission));
         myMaterial.SetColor("_Color", color);
     }
 

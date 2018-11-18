@@ -152,36 +152,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114667877979421302, guid: b56d5dbb170635544b81e74a115e403e,
-        type: 2}
-      propertyPath: offColor.r
-      value: 0.1792453
-      objectReference: {fileID: 0}
-    - target: {fileID: 114667877979421302, guid: b56d5dbb170635544b81e74a115e403e,
-        type: 2}
-      propertyPath: offColor.g
-      value: 0.1792453
-      objectReference: {fileID: 0}
-    - target: {fileID: 114667877979421302, guid: b56d5dbb170635544b81e74a115e403e,
-        type: 2}
-      propertyPath: offColor.b
-      value: 0.1792453
-      objectReference: {fileID: 0}
-    - target: {fileID: 114667877979421302, guid: b56d5dbb170635544b81e74a115e403e,
-        type: 2}
-      propertyPath: sleepColor.r
-      value: 0.3554201
-      objectReference: {fileID: 0}
-    - target: {fileID: 114667877979421302, guid: b56d5dbb170635544b81e74a115e403e,
-        type: 2}
-      propertyPath: sleepColor.g
-      value: 0.36468384
-      objectReference: {fileID: 0}
-    - target: {fileID: 114667877979421302, guid: b56d5dbb170635544b81e74a115e403e,
-        type: 2}
-      propertyPath: sleepColor.b
-      value: 0.46226418
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b56d5dbb170635544b81e74a115e403e, type: 2}
   m_IsPrefabAsset: 0
