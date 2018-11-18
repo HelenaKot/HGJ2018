@@ -58,9 +58,12 @@ public class Node : MonoBehaviour {
 	
 	public void Kill()
 	{
-		dead = true;
-		deathSound.pitch = Random.Range(0.5f, 1f);
-		deathSound.Play();
+		if (!dead)
+		{
+			dead = true;
+			deathSound.pitch = Random.Range(0.5f, 1f);
+			deathSound.Play();
+		}
 	}
 	public void Wake()
 	{
