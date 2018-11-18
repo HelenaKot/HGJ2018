@@ -13,30 +13,13 @@ public class Node : MonoBehaviour {
 	[SerializeField] private int wakeUpHurt;
 	public int healAmount;
 	private Grid grid;
+	[SerializeField] private AudioSource deathSound;
+	[SerializeField] private AudioSource clickSound;
 
 	public int posX;
 	public int posY;
 
-	private TextMeshPro tmpro;
-
 	public bool finished;
-
-	/// <summary>
-	/// Start is called on the frame when a script is enabled just before
-	/// any of the Update methods is called the first time.
-	/// </summary>
-	void Start()
-	{
-		tmpro = GetComponentInChildren<TextMeshPro>();
-	}
-
-	/// <summary>
-	/// Update is called every frame, if the MonoBehaviour is enabled.
-	/// </summary>
-	void Update()
-	{
-		tmpro.text = health.ToString();
-	}
 
 	public void Heal(int healAmount, bool update)
 	{
@@ -76,6 +59,8 @@ public class Node : MonoBehaviour {
 	public void Kill()
 	{
 		dead = true;
+		deathSound.pitch = Random.Range(0.5f, 1f);
+		deathSound.Play();
 	}
 	public void Wake()
 	{
@@ -98,6 +83,9 @@ public class Node : MonoBehaviour {
 		{
 			Heal(healAmount, true);
 			grid.HealNeighbours(posX, posY);
+			
+			clickSound.pitch = Random.Range(0.5f, 1f);
+			clickSound.Play();
 		}
 	}
 }
