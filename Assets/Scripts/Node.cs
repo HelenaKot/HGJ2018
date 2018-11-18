@@ -15,6 +15,7 @@ public class Node : MonoBehaviour {
 	private Grid grid;
 	[SerializeField] private AudioSource deathSound;
 	[SerializeField] private AudioSource clickSound;
+	[SerializeField] private ParticleSystem sparks;
 
 	public int posX;
 	public int posY;
@@ -63,6 +64,8 @@ public class Node : MonoBehaviour {
 			dead = true;
 			deathSound.pitch = Random.Range(0.5f, 1f);
 			deathSound.Play();
+			sparks.transform.rotation = Quaternion.Euler(new Vector3(Random.Range(-50f, -90f), sparks.transform.rotation.eulerAngles.y, sparks.transform.eulerAngles.z));
+			sparks.Emit(30);
 		}
 	}
 	public void Wake()
