@@ -11,7 +11,7 @@ public class Node : MonoBehaviour {
 	public int maxHealth = 10;
 	public int minHealth = -10;
 	[SerializeField] private int wakeUpHurt = 5;
-	[SerializeField] private int healAmount = 3;
+	public int healAmount = 3;
 	private Grid grid;
 
 	public void Heal(int healAmount)
@@ -54,18 +54,17 @@ public class Node : MonoBehaviour {
 		Hurt(wakeUpHurt);
 	}
 
+	public void SetGridReference(Grid grid)
+	{
+		this.grid = grid;
+	}
+
 	/// <summary>
 	/// OnMouseDown is called when the user has pressed the mouse button while
 	/// over the GUIElement or Collider.
 	/// </summary>
 	void OnMouseDown()
 	{
-		Debug.Log("Clicked Node");
 		Heal(healAmount);
-	}
-
-	public void SetGridReference(Grid grid)
-	{
-		this.grid = grid;
 	}
 }

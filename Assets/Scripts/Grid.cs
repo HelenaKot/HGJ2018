@@ -56,7 +56,7 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		List<Node> inactiveNodes = new List<Node>();
 		for (int i = 0; i < gridLength; i++)
 		{
-			for (int j = 0; i < gridHeight; i++)
+			for (int j = 0; j < gridHeight; j++)
 			{
 				Node currentNode = gridFieldNodes[i,j];
 				if (currentNode.sleeping)
@@ -190,11 +190,11 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		{
 			neighbours.Add(gridFieldNodes[posX, posY-1]);
 		}
-		if (posX != gridLength)
+		if (posX != gridLength-1)
 		{
 			neighbours.Add(gridFieldNodes[posX+1, posY]);
 		}
-		if (posY != gridHeight)
+		if (posY != gridHeight-1)
 		{
 			neighbours.Add(gridFieldNodes[posX, posY+1]);
 		}

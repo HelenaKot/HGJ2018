@@ -216,6 +216,8 @@ MonoBehaviour:
   health: 0
   maxHealth: 10
   minHealth: -10
+  wakeUpHurt: 5
+  healAmount: 3
 --- !u!114 &114667877979421302
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -256,20 +258,6 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
-  shelfAnchors:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  columnAnchors:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!212 &212629443417228610
 SpriteRenderer:
   m_ObjectHideFlags: 1
