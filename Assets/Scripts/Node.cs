@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class Node : MonoBehaviour {
 
 	public bool active;
@@ -10,9 +10,28 @@ public class Node : MonoBehaviour {
 	public int health;
 	public int maxHealth = 10;
 	public int minHealth = -10;
-	[SerializeField] private int wakeUpHurt = 5;
-	public int healAmount = 3;
+	[SerializeField] private int wakeUpHurt = 3;
+	public int healAmount = 5;
 	private Grid grid;
+
+	private TextMeshPro tmpro;
+
+	/// <summary>
+	/// Start is called on the frame when a script is enabled just before
+	/// any of the Update methods is called the first time.
+	/// </summary>
+	void Start()
+	{
+		tmpro = GetComponentInChildren<TextMeshPro>();
+	}
+
+	/// <summary>
+	/// Update is called every frame, if the MonoBehaviour is enabled.
+	/// </summary>
+	void Update()
+	{
+		tmpro.text = health.ToString();
+	}
 
 	public void Heal(int healAmount)
 	{

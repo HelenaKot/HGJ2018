@@ -15,6 +15,8 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 
 	[SerializeField] private Rack rack;
 
+	private bool lastRound;
+
 	/// <summary>
 	/// Start is called on the frame when a script is enabled just before
 	/// any of the Update methods is called the first time.
@@ -59,10 +61,7 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 			for (int j = 0; j < gridHeight; j++)
 			{
 				Node currentNode = gridFieldNodes[i,j];
-				if (currentNode.sleeping)
-				{
-					currentNode.Wake();
-				}
+				
 				if(currentNode.active)
 				{
 					foreach (Node node in GetNeighbours(i,j))
@@ -72,40 +71,58 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 							inactiveNodes.Add(node);
 						}
 					}
-				}				
-				else if (currentNode.health <0 && !currentNode.dead)
-				{
-					currentNode.Hurt(hurtAmount);					
-					foreach (Node node in GetNeighbours(i,j))
+					if (currentNode.health <0 && !currentNode.dead)
 					{
-						if(node.active && !node.sleeping)
-							node.Hurt(hurtAmount);
+						//currentNode.Hurt(hurtAmount);					
+						foreach (Node node in GetNeighbours(i,j))
+						{
+							if(node.active && !node.sleeping)
+								node.Hurt(hurtAmount);
+						}
 					}
-				}
+					if (currentNode.sleeping)
+					{
+						currentNode.Wake();
+					}
+				}				
 			}
 		}
-		if(inactiveNodes.Count > activatedAmount)
+
+		if(!lastRound)
 		{
-			for (int i = 0; i<activatedAmount; i++)
+			if(inactiveNodes.Count > activatedAmount)
 			{
-				Node currentNode = inactiveNodes[Random.Range(0, inactiveNodes.Count)];
-				currentNode.Activate();
-				inactiveNodes.Remove(currentNode);
-			}
-			UpdateObservers();
-		}			
-		else if (inactiveNodes.Count > 0)
-		{
-			for (int i = 0; i< inactiveNodes.Count; i++)
+				for (int i = 0; i<activatedAmount; i++)
+				{
+					Node currentNode = inactiveNodes[Random.Range(0, inactiveNodes.Count)];
+					currentNode.Activate();
+					inactiveNodes.Remove(currentNode);
+				}
+
+				if (inactiveNodes.Count == 0)
+					lastRound = true;
+
+				UpdateObservers();
+			}			
+			else if (inactiveNodes.Count > 0)
 			{
-				Node currentNode = inactiveNodes[Random.Range(0, inactiveNodes.Count)];
-				currentNode.Activate();
-				inactiveNodes.Remove(currentNode);
+				for (int i = 0; i< inactiveNodes.Count; i++)
+				{
+					Node currentNode = inactiveNodes[Random.Range(0, inactiveNodes.Count)];
+					currentNode.Activate();
+					inactiveNodes.Remove(currentNode);
+				}
+
+				lastRound = true;
+
+				UpdateObservers();
 			}
-			UpdateObservers();
 		}
 		else
-			FinishGame();		
+		{			
+			FinishGame();
+			UpdateObservers();
+		}
 	}
 
 	private List<Node> GetStartNodes()
@@ -163,6 +180,7 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		{
 			finalScore += node.health;
 		}
+		Debug.Log(finalScore);
 		if (finalScore >= 0)
 			Win();
 		else
