@@ -15,6 +15,7 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 	[SerializeField] private int neighbourHealAmount;
 
 	[SerializeField] private Rack rack;
+	[SerializeField] private HealthBar healthBar;
 
 	private bool lastRound;
 
