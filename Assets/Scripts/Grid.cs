@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 {
-	[SerializeField] private int gridLength = 7;
-	[SerializeField] private int gridHeight = 6;
+	[SerializeField] private int gridLength;
+	[SerializeField] private int gridHeight;
 
 	private Node[,] gridFieldNodes;
 	[SerializeField] private GameObject nodePrefab;
 
-	[SerializeField] private int hurtAmount = 1;
-	[SerializeField] private int activatedAmount = 2;
+	[SerializeField] private int hurtAmount;
+	[SerializeField] private int activatedAmount;
+	[SerializeField] private int neighbourHealAmount;
 
 	[SerializeField] private Rack rack;
 
@@ -36,6 +37,8 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 				GameObject node = Instantiate(nodePrefab);
 				Node nodeScript = node.GetComponent<Node>();
 				nodeScript.SetGridReference(this);
+				nodeScript.posX = i;
+				nodeScript.posY = j;
 				gridFieldNodes[i,j] = nodeScript;
 				NodeGraphics ng = node.GetComponent<NodeGraphics>();
 				ng.SetRackReference(rack);
@@ -130,37 +133,49 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		}
 	}
 
+	public void HealNeighbours(int posX, int posY)
+	{
+		Node[] neighbours = GetNeighbours(posX, posY);
+		foreach(Node node in neighbours)
+		{
+			if(node.active && !node.dead && !node.sleeping)
+			{
+				node.Heal(neighbourHealAmount, false);
+			}
+		}
+	}
+
 	private List<Node> GetStartNodes()
 	{
 		List<Node> startNodes = new List<Node>();
 		if (gridLength % 2 == 0 && gridHeight % 2 == 0)
 		{
+			startNodes.Add(gridFieldNodes[gridLength/2-1,gridHeight/2-1]);
+			startNodes.Add(gridFieldNodes[gridLength/2,gridHeight/2-1]);
+			startNodes.Add(gridFieldNodes[gridLength/2-1,gridHeight/2]);
 			startNodes.Add(gridFieldNodes[gridLength/2,gridHeight/2]);
-			startNodes.Add(gridFieldNodes[gridLength/2+1,gridHeight/2]);
-			startNodes.Add(gridFieldNodes[gridLength/2,gridHeight/2+1]);
-			startNodes.Add(gridFieldNodes[gridLength/2+1,gridHeight/2+1]);
 		}
 		else if (gridLength % 2 != 0 && gridHeight % 2 == 0)
 		{
 			int middleX = Mathf.FloorToInt(gridLength/2);
 
+			startNodes.Add(gridFieldNodes[middleX,gridHeight/2-1]);
+			startNodes.Add(gridFieldNodes[middleX+1,gridHeight/2-1]);
+			startNodes.Add(gridFieldNodes[middleX-1,gridHeight/2-1]);
 			startNodes.Add(gridFieldNodes[middleX,gridHeight/2]);
 			startNodes.Add(gridFieldNodes[middleX+1,gridHeight/2]);
 			startNodes.Add(gridFieldNodes[middleX-1,gridHeight/2]);
-			startNodes.Add(gridFieldNodes[middleX,gridHeight/2+1]);
-			startNodes.Add(gridFieldNodes[middleX+1,gridHeight/2+1]);
-			startNodes.Add(gridFieldNodes[middleX-1,gridHeight/2+1]);
 		}
 		else if (gridLength % 2 == 0 && gridHeight % 2 != 0)
 		{
 			int middleY = Mathf.FloorToInt(gridHeight/2);
 
+			startNodes.Add(gridFieldNodes[gridLength/2-1,middleY]);
+			startNodes.Add(gridFieldNodes[gridLength/2-1,middleY+1]);
+			startNodes.Add(gridFieldNodes[gridLength/2-1,middleY-1]);
 			startNodes.Add(gridFieldNodes[gridLength/2,middleY]);
 			startNodes.Add(gridFieldNodes[gridLength/2,middleY+1]);
 			startNodes.Add(gridFieldNodes[gridLength/2,middleY-1]);
-			startNodes.Add(gridFieldNodes[gridLength/2+1,middleY]);
-			startNodes.Add(gridFieldNodes[gridLength/2+1,middleY+1]);
-			startNodes.Add(gridFieldNodes[gridLength/2+1,middleY-1]);
 		}
 		else
 		{
@@ -176,7 +191,6 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 
 		return startNodes;
 	}
-
 
 	private void FinishGame()
 	{

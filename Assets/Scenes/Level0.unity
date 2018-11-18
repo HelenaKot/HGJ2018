@@ -145,6 +145,7 @@ MonoBehaviour:
   nodePrefab: {fileID: 1629332956810782, guid: b56d5dbb170635544b81e74a115e403e, type: 2}
   hurtAmount: 1
   activatedAmount: 2
+  neighbourHealAmount: 1
   rack: {fileID: 361319242}
 --- !u!4 &26186619
 Transform:

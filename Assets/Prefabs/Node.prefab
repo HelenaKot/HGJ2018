@@ -390,9 +390,12 @@ MonoBehaviour:
   sleeping: 0
   health: 0
   maxHealth: 10
-  minHealth: -10
-  wakeUpHurt: 5
-  healAmount: 3
+  minHealth: -6
+  wakeUpHurt: 3
+  healAmount: 20
+  posX: 0
+  posY: 0
+  finished: 0
 --- !u!114 &114667877979421302
 MonoBehaviour:
   m_ObjectHideFlags: 1

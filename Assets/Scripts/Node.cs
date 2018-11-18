@@ -8,11 +8,14 @@ public class Node : MonoBehaviour {
 	public bool dead;
 	public bool sleeping;
 	public int health;
-	public int maxHealth = 10;
-	public int minHealth = -10;
-	[SerializeField] private int wakeUpHurt = 3;
-	public int healAmount = 20;
+	public int maxHealth;
+	public int minHealth;
+	[SerializeField] private int wakeUpHurt;
+	public int healAmount;
 	private Grid grid;
+
+	public int posX;
+	public int posY;
 
 	private TextMeshPro tmpro;
 
@@ -35,17 +38,22 @@ public class Node : MonoBehaviour {
 		tmpro.text = health.ToString();
 	}
 
-	public void Heal(int healAmount)
+	public void Heal(int healAmount, bool update)
 	{
 		if (active && !dead && health < maxHealth)
 		{
 			health += healAmount;
+			
 			if (health > maxHealth)
 				health = maxHealth;
+			
 			if (sleeping)
 				sleeping = false;
+			
 			Debug.Log("Healed");
-			grid.UpdateGrid();
+
+			if(update)			
+				grid.UpdateGrid();
 		}
 	}
 
@@ -86,7 +94,10 @@ public class Node : MonoBehaviour {
 	/// </summary>
 	void OnMouseDown()
 	{
-		if(!finished)
-			Heal(healAmount);
+		if(!finished && !dead)
+		{
+			Heal(healAmount, true);
+			grid.HealNeighbours(posX, posY);
+		}
 	}
 }
