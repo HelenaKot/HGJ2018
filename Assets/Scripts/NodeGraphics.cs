@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
     [SerializeField] private Gradient HealthColor = new Gradient();
+    [SerializeField] private Gradient FaceColor = new Gradient();
     [SerializeField] private Color offColor = Color.black;
     [SerializeField] private Color sleepColor = Color.gray;
+    [SerializeField] private Color faceColorSleep = Color.white;
     [SerializeField] float intensity = 1.4F;
     [SerializeField] float minEmission = 0.8F;
 
-   Rack rack; //todo!
+    Rack rack; //todo!
     Node node;
     private int healthPoints;
     private Material myMaterial;
@@ -50,10 +52,12 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
         else if (node.sleeping)
         {
             UpdateColor(sleepColor, 0);
+            mySprite.color = faceColorSleep;
         }
         else
         {
             float healthPercent = (node.health + Mathf.Abs(node.minHealth)) / (float)healthPoints;
+            mySprite.color = FaceColor.Evaluate(healthPercent);
             Color glowColor = HealthColor.Evaluate(healthPercent);
             UpdateColor(glowColor, intensity * healthPercent);
         }
