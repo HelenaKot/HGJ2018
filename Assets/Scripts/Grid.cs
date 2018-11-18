@@ -66,7 +66,6 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		}
 
 		UpdateObservers();
-		healthBar.Setup(gridFieldNodes[0,0].maxHealth, gridFieldNodes[0,0].minHealth, gridFieldNodes.Length);
 		healthBar.UpdateHealthBar(negativePoints, positivePoints);
 	}
 	
