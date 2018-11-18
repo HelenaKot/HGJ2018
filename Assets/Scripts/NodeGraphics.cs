@@ -17,6 +17,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
     private int healthPoints;
     private Material myMaterial;
     private SpriteRenderer mySprite;
+    private SpriteMask mySpriteMask;
 
     void Awake()
     {
@@ -24,6 +25,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
         healthPoints = node.maxHealth + Mathf.Abs(node.minHealth);
         myMaterial = GetComponentInChildren<Renderer>().materials[1];
         mySprite = GetComponentInChildren<SpriteRenderer>();
+        mySpriteMask = GetComponentInChildren<SpriteMask>();
         myMaterial.EnableKeyword("_EMISSION");
         refreshView();
     }
@@ -77,12 +79,11 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
         {
             if (node.sleeping)
             {
-                mySprite.sprite = faces[0];
+                mySpriteMask.sprite = faces[0];
             }
             else
             {
-                mySprite.sprite = faces[2];
-              //todo   mySprite.sprite = faces[(faces.Length - 1) * percent];
+                mySpriteMask.sprite = faces[(int)((faces.Length - 1) * percent)];
             }
         }
     }
