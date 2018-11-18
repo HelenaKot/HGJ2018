@@ -48,13 +48,26 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 			}
 		}
 
+		int negativePoints = 0;
+		int positivePoints = 0;
+
 		foreach(Node node in GetStartNodes())
 		{
 			node.active = true;
 			node.health = Random.Range(-3,4);
+			if (node.health>0)
+			{
+				positivePoints += node.health;
+			}
+			else if (node.health < 0)
+			{
+				negativePoints += Mathf.Abs(node.health);
+			}
 		}
 
 		UpdateObservers();
+		healthBar.Setup(gridFieldNodes[0,0].maxHealth, gridFieldNodes[0,0].minHealth, gridFieldNodes.Length);
+		healthBar.UpdateHealthBar(negativePoints, positivePoints);
 	}
 	
 	public void UpdateGrid()
@@ -91,6 +104,8 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 				}				
 			}
 		}
+
+		UpdateHealth();
 
 		if(!lastRound)
 		{
@@ -146,6 +161,23 @@ public class Grid : MonoBehaviour, IObservable<NodeGraphics>
 		}
 	}
 
+	private void UpdateHealth()
+	{
+		int positivePoints = 0;
+		int negativePoints = 0;
+		foreach (Node node in gridFieldNodes)
+		{
+			if (node.health>0)
+			{
+				positivePoints += node.health;
+			}
+			else if (node.health < 0)
+			{
+				negativePoints += Mathf.Abs(node.health);
+			}
+		}
+		healthBar.UpdateHealthBar(negativePoints, positivePoints);
+	}
 	private List<Node> GetStartNodes()
 	{
 		List<Node> startNodes = new List<Node>();

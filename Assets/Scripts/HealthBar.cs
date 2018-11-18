@@ -5,18 +5,19 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour {
 
-	public int barWidth;
-	private int pointWidth;
+	public float barWidth;
+	private float pointWidth;
 
 	[SerializeField] private RectTransform positiveBar;
 	[SerializeField] private RectTransform negativeBar;
-	public void Setup(int maxHealth, int minHealth, int numberOfNodes)
+	public void Setup(float maxHealth, float minHealth, int numberOfNodes)
 	{
-		int totalPoints = (maxHealth + Mathf.Abs(minHealth)) * numberOfNodes;
-		pointWidth = pointWidth/totalPoints;
+		float totalPoints = (maxHealth + Mathf.Abs(minHealth)) * numberOfNodes;
+		pointWidth = barWidth/totalPoints;
+		pointWidth *= 2;
 	}
 
-	public void UpdateHealthBar(int negativePoints, int positivePoints)
+	public void UpdateHealthBar(float negativePoints, float positivePoints)
 	{
 		positiveBar.sizeDelta = new Vector2(positivePoints*pointWidth, positiveBar.sizeDelta.y);
 		negativeBar.sizeDelta = new Vector2(negativePoints*pointWidth, negativeBar.sizeDelta.y);
