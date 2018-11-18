@@ -5,6 +5,7 @@ using UnityEngine;
 public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
     [SerializeField] private Gradient HealthColor = new Gradient();
     [SerializeField] private Gradient FaceColor = new Gradient();
+    [SerializeField] private Sprite[] faces;
     [SerializeField] private Color offColor = Color.black;
     [SerializeField] private Color sleepColor = Color.gray;
     [SerializeField] private Color faceColorSleep = Color.white;
@@ -60,6 +61,7 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
             mySprite.color = FaceColor.Evaluate(healthPercent);
             Color glowColor = HealthColor.Evaluate(healthPercent);
             UpdateColor(glowColor, intensity * healthPercent);
+            updateFace(healthPercent);
         }
     }
 
@@ -67,6 +69,22 @@ public class NodeGraphics : MonoBehaviour, IObserver<NodeGraphics> {
     {
         myMaterial.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(minEmission + emission));
         myMaterial.SetColor("_Color", color);
+    }
+
+    private void updateFace(float percent)
+    {
+        if (faces.Length > 0)
+        {
+            if (node.sleeping)
+            {
+                mySprite.sprite = faces[0];
+            }
+            else
+            {
+                mySprite.sprite = faces[2];
+              //todo   mySprite.sprite = faces[(faces.Length - 1) * percent];
+            }
+        }
     }
 
     
